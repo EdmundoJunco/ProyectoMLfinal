@@ -10,6 +10,10 @@ import numpy as np
 import time
 from numpy.lib.shape_base import column_stack
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+from sklearn.preprocessing import LabelEncoder
+
 
 st.markdown("-----")
 
@@ -79,18 +83,47 @@ data['Columna 2']= data['Columna 2'] * 100
 data['Columna 3']= data['Columna 3'] * 1000
 data
 
+from sklearn.preprocessing import MinMaxScaler
+
 scaler = MinMaxScaler()
 scaler_df = scaler.fit_transform(data)
 
 scaler_df
+
+from sklearn.preprocessing import MinMaxScaler
 
 scaler = MinMaxScaler()
 scaled_df = scaler.fit_transform(data)
 scaled_df = pd.DataFrame(scaled_df,columns=['Columna 1', 'Columna 2', 'Columna 3'])
 scaled_df
 
-#sns.distplot(data['Columna 1'])
+sns.set(style="whitegrid")
+sns.distplot(data['Columna 1'], kde=False, bins=20)
 
-st.pyplot(data['Columna 1'])
+data = pd.DataFrame({'Columna 1': np.random.randn(100)})
+sns.distplot(data['Columna 1'])
+st.pyplot()
+
+data = pd.read_csv("models\data\excel.csv.csv")
+st.dataframe(data)
+
+# Obtener las features and labels
+features = data.drop(['NombreEstacion'], axis=1)
+
+labels=data.NombreEstacion
+
+features.head(), labels.head(), features.shape, labels.shape
+
+#Particionar en conjunto entrenamiento y pruebas
+X_train, X_test, y_train, y_test = train_test_split(
+                                        features,
+                                        labels,
+                                        train_size   = 0.6,
+                                        random_state=1, stratify=labels)
+X_train.shape, X_test.shape, y_train.shape, y_test.shape
+
+
+
+
 
 st.write("Made in Edmundo Arturo Junco Orduz")
